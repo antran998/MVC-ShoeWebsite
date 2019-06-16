@@ -155,10 +155,15 @@
 
                         <?php  
 
-                            $sizeItem = $GLOBALS['db']->getSize('ID_ITEM','items');
-
-                            for($i = $sizeItem ;$i> $sizeItem-4;$i--){
+                            $sizeItem = $GLOBALS['db']->getMaxID('ID_ITEM','items');
+                            $tempCount=1;
+                            $i=$sizeItem;
+                            while($tempCount!=4){
                                 $idProduct = $GLOBALS['db']->GetSpecificRow($i,'ID_ITEM','items','ID_ITEM');
+                                if($idProduct===NULL){
+                                    $i--;
+                                    continue;
+                                }
                                 $nameProduct = $GLOBALS['db']->GetSpecificRow($i,'NAME','items','ID_ITEM');
                                 $price = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'PRICE','items','ID_ITEM'));
                                 $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'DISCOUNT_PRICE','items','ID_ITEM'));
@@ -173,40 +178,11 @@
                                         </div>                             
                                     </div>
                                 ";
-
+                                $tempCount++;
+                                $i--;
                             }
 
-                        ?>
-
-
-                        <!-- <div class="thubmnail-recent">
-                            <img src="lib/img/1.png" class="recent-thumb" alt="">
-                            <h2><a href="single-product?id=0">Adidas Alpha G28589</a></h2>
-                            <div class="product-sidebar-price">
-                                <ins>2.000.000đ</ins> <del>2.200.000đ</del>
-                            </div>                             
-                        </div>
-                        <div class="thubmnail-recent">
-                            <img src="lib/img/2.png" class="recent-thumb" alt="">
-                            <h2><a href="single-product?id=1">Adidas Alpha BG28590</a></h2>
-                            <div class="product-sidebar-price">
-                                <ins>2.100.000đ</ins> <del>2.600.000đ</del>
-                            </div>                             
-                        </div>
-                        <div class="thubmnail-recent">
-                            <img src="lib/img/3.png" class="recent-thumb" alt="">
-                            <h2><a href="single-product?id=2">Adidas Alpha Bouce G28591</a></h2>
-                            <div class="product-sidebar-price">
-                                <ins>2.200.000đ</ins> <del>2.500.000đ</del>
-                            </div>                             
-                        </div>
-                        <div class="thubmnail-recent">
-                            <img src="lib/img/4.png" class="recent-thumb" alt="">
-                            <h2><a href="single-product?id=3">Adidas Alpha Bouce G28592</a></h2>
-                            <div class="product-sidebar-price">
-                                <ins>2.000.000đ</ins> <del>2.200.000đ</del>
-                            </div>                             
-                        </div> -->
+                        ?>                        
                     </div>
                 </div>
                 
@@ -333,10 +309,19 @@
                         <div class="product-carousel">
 
                             <?php
-                                $sizeItem = $GLOBALS['db']->getSize('ID_ITEM','items');
+                                $sizeItem = $GLOBALS['db']->getMaxID('ID_ITEM','items');
 
-                                for($i = $sizeItem ;$i> $sizeItem-6;$i--){
+                                $tempCount=1;
+                                $i=$sizeItem;
+                                while($tempCount!=7){
                                     $idProduct = $GLOBALS['db']->GetSpecificRow($i,'ID_ITEM','items','ID_ITEM');
+
+                                    // continue loop when item not exist
+                                    if($idProduct===NULL){
+                                        $i--;
+                                        continue;
+                                    }
+
                                     $nameProduct = $GLOBALS['db']->GetSpecificRow($i,'NAME','items','ID_ITEM');
                                     $price = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'PRICE','items','ID_ITEM'));
                                 $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'DISCOUNT_PRICE','items','ID_ITEM'));
@@ -359,97 +344,10 @@
                                         </div> 
                                     </div>
                                     ";
+                                    $tempCount++;
+                                    $i--;
                                 }
                             ?>
-                            <!-- <div class="single-product" id="pro-0">
-                                <div class="product-f-image">
-                                    <img src="lib/img/1.png" alt="" id="img_pro">
-                                    <div class="product-hover">
-                                        <a class="add-to-cart-link" data-product_id="0"><i class="fa fa-shopping-cart"></i> Giỏ</a>
-                                        <a href="single-product?id=0" class="view-details-link"><i class="fa fa-link"></i> Xem Hàng</a>
-                                    </div>
-                                </div>
-                                
-                                <h2><a href="single-product?id=0" id="productName">Adidas Alpha Bounce G28589 </a></h2>
-                                
-                                <div class="product-carousel-price">
-                                    <ins id="price1">2.100.000đ</ins> <del>2.500.000đ</del>
-                                </div> 
-                            </div>
-                            <div class="single-product" id="pro-1">
-                                <div class="product-f-image">
-                                    <img src="lib/img/2.png" alt="" id="img_pro">
-                                    <div class="product-hover">
-                                        <a class="add-to-cart-link" data-product_id="1"><i class="fa fa-shopping-cart"></i> Giỏ</a>
-                                        <a href="single-product?id=1" class="view-details-link"><i class="fa fa-link"></i> Xem Hàng</a>
-                                    </div>
-                                </div>
-                                
-                                <h2><a href="single-product?id=1" id="productName">Adidas Alpha Bounce G28590</a></h2>
-                                <div class="product-carousel-price">
-                                    <ins id="price1">2.100.000đ</ins> <del>2.600.000đ</del>
-                                </div> 
-                            </div>
-                            <div class="single-product" id="pro-2">
-                                <div class="product-f-image">
-                                    <img src="lib/img/3.png" alt="" id="img_pro">
-                                    <div class="product-hover">
-                                        <a class="add-to-cart-link" data-product_id="2"><i class="fa fa-shopping-cart"></i> Giỏ</a>
-                                        <a href="single-product?id=2" class="view-details-link"><i class="fa fa-link"></i> Xem Hàng</a>
-                                    </div>
-                                </div>
-                                
-                                <h2><a href="single-product?id=2" id="productName">Adidas Alpha Bouce G28591</a></h2>
-
-                                <div class="product-carousel-price">
-                                    <ins id="price1">2.220.000đ</ins> <del>2.500.000đ</del>
-                                </div>                                 
-                            </div>
-                            <div class="single-product" id="pro-3">
-                                <div class="product-f-image">
-                                    <img src="lib/img/4.png" alt="" id="img_pro">
-                                    <div class="product-hover">
-                                        <a class="add-to-cart-link" data-product_id="3"><i class="fa fa-shopping-cart"></i> Giỏ</a>
-                                        <a href="single-product?id=3" class="view-details-link"><i class="fa fa-link"></i> Xem Hàng</a>
-                                    </div>
-                                </div>
-                                
-                                <h2><a href="single-product?id=3" id="productName">Adidas Alpha Bouce G28592</a></h2>
-
-                                <div class="product-carousel-price">
-                                    <ins id="price1">2.000.000đ</ins> <del>2.200.000đ</del>
-                                </div>                            
-                            </div>
-                            <div class="single-product" id="pro-4">
-                                <div class="product-f-image">
-                                    <img src="lib/img/5.png" alt="" id="img_pro">
-                                    <div class="product-hover">
-                                        <a class="add-to-cart-link" data-product_id="4"><i class="fa fa-shopping-cart"></i> Giỏ</a>
-                                        <a href="single-product?id=4" class="view-details-link"><i class="fa fa-link"></i> Xem Hàng</a>
-                                    </div>
-                                </div>
-                                
-                                <h2><a href="single-product?id=4" id="productName">Adidas Oz Run Knlt Running F35560</a></h2>
-
-                                <div class="product-carousel-price">
-                                    <ins id="price1">1.600.000đ</ins> <del>1.800.000đ</del>
-                                </div>                                 
-                            </div>
-                            <div class="single-product" id="pro-6">
-                                <div class="product-f-image">
-                                    <img src="lib/img/7.png" alt="" id="img_pro">
-                                    <div class="product-hover">
-                                        <a class="add-to-cart-link" data-product_id="6"><i class="fa fa-shopping-cart"></i> Giỏ</a>
-                                        <a href="single-product?id=6" class="view-details-link"><i class="fa fa-link"></i> Xem Hàng</a>
-                                    </div>
-                                </div>
-                                
-                                <h2><a href="single-product?id=6" id="productName">Adidas A 16+ Ultra Boost Cheetah BB7418</a></h2>
-
-                                <div class="product-carousel-price">
-                                    <ins id="price1">2.500.000đ</ins>
-                                </div>                            
-                            </div> -->
                         </div>
                     </div>
                 </div>

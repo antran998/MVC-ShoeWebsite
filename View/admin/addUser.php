@@ -32,7 +32,7 @@
             <button class="btn btn-primary btn-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i> Sign up New Account</button>
         </form>
 
-        <form action="/reset/password/" class="form-reset">
+        <form action="mailcheck" class="form-reset">
             <input type="email" id="resetEmail" class="form-control" placeholder="Email address" required="" autofocus="">
             <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
             <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
@@ -46,11 +46,7 @@
             </div>
             
             <p style="text-align:center">OR</p>
-            
-            <!-- <div class="float-container">
-                <label id="check"></label>
-
-            </div> -->           
+                     
 
             <div class="float-container">
                 <label id="check0"></label>

@@ -24,10 +24,15 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="lib/css/owl.carousel.css">
     <link rel="stylesheet" href="lib/css/style.css">
+    <link rel="stylesheet" type="text/css" href="lib/css/loader.css">
     <link rel="stylesheet" href="lib/css/responsive.css">
 </head>
 <body onload="hideScrollbar(); addSendButt();">
-     <div class="product-big-title-area">
+    <!-- loader -->
+    <div class="loader" id="theLoader"></div>
+    
+    <div id="hidden_container">
+    <div class="product-big-title-area">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -38,7 +43,6 @@
             </div>
         </div>
     </div>
-    
 
 	<div class="contact1">
 		<div class="container-contact1">
@@ -53,7 +57,7 @@
 
 				<div class="wrap-input1 validate-input float-container" data-validate ="Name is required">
                     <label id="check0"></label>
-					<input class="input1" type="text" name="name" id="fullname" placeholder="Họ Tên" value="<?php echo $_SESSION['name']; ?>" disabled>
+					<input class="input1" type="text" name="name" id="fullname" placeholder="Họ Tên" value="<?php echo $_SESSION['username']; ?>" disabled>
 					<span class="shadow-input1"></span>
 				</div>
 
@@ -121,7 +125,7 @@
             </div>
         </div>
     </div>
-   
+    </div>   
 <!-- Latest jQuery form server -->
 <script src="https://code.jquery.com/jquery.min.js"></script>
 

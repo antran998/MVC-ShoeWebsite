@@ -44,6 +44,15 @@ class Database {
         $this->conn->close();
     }
 
+    public function getMaxID($columnName,$tableName){
+        $sql = "SELECT MAX(".$columnName.") FROM ".$tableName;
+        $this->result=$this->conn->query($sql);
+        
+        // Xuất data.
+        $row = $this->result->fetch_row();        
+        return $row[0];
+    }
+
     //Đếm giá trị
     public function getSize($columnName,$tableName){
         $sql = "SELECT COUNT(".$columnName.") FROM ".$tableName;
@@ -68,9 +77,15 @@ class Database {
         }        
     }
 
+    // public function BestSeller(){
+    //     $sql="SELECT SUM(QUANTITY),bh.ID_ITEM FROM buying_history bh,items it WHERE bh.ID_ITEM=it.ID_ITEM GROUP BY ID_ITEM LIMIT 3";
+    // }
+
     //Đếm số lượng
     public function SumQuantity($columnName1,$columnName2,$tableName,$groupColumn,$amount,array &$valueContainer){
-        $sql = "SELECT SUM(".$columnName2."),".$columnName2." FROM ".$tableName." GROUP BY ".$groupColumn." LIMIT ".$amount;
+        // $sql = "SELECT SUM(".$columnName1."),".$columnName2." FROM ".$tableName." GROUP BY ".$groupColumn." LIMIT ".$amount;
+        $sql = "SELECT SUM(".$columnName1."),bh.".$columnName2." FROM ".$tableName." bh,items it WHERE bh.ID_ITEM = it.ID_ITEM GROUP BY ".$groupColumn." LIMIT ".$amount;
+
         $this->result=$this->conn->query($sql);
 
         $count=0;
@@ -123,8 +138,6 @@ class Database {
         $this->conn->query($sql);
     }
 
-
-
     ///////////////////////////////////Tạo tài khoản người dùng
     public function insertAccount($id,$username,$password,$name,$email,$address,$phoneNum){
         $sql = "INSERT INTO account_info VALUES ('$id','$name','$email','$address','$phoneNum',0)";
@@ -151,29 +164,83 @@ class Database {
             return true;
     }
 
-    //return list value from specific table
-    public function ReturnListValue($tableName){
+    //check exist Email
+     public function ReturnRegistryEmail($email){
+        $sql="SELECT * FROM account_info WHERE EMAIL='$email'";
+        $this->result=$this->conn->query($sql);
+        $num_rows=mysqli_num_rows($this->result);
+        if($num_rows==0){
+            return false;
+        }
+        else
+            return true;
+    }
+
+    //return list value from specific table or searchString
+    public function ReturnListValueWithOption($tableName,$searchString,$SearchBy){
+       if($searchString!=""){
+       $sql=" SELECT * FROM $tableName WHERE $SearchBy REGEXP '$searchString'";
+       }else if($searchString==""&&$SearchBy==""){
         $sql = "SELECT * FROM ".$tableName;
-        return $this->result=$this->conn->query($sql);      
+       }
+       return $this->result=$this->conn->query($sql);
+    }
+
+    //return current password by id
+    public function GetCurrentPassword($id){
+        $sql="SELECT PASSWORD FROM account WHERE ID='$id'";
+        $this->result=$this->conn->query($sql);
+        While($row=mysqli_fetch_assoc($this->result)){
+             return $row['PASSWORD'];
+        }
+        // return $result;
     }
 
     //new
     public function InsertItem($id,$name,$price,$disprice,$img){
         $sql= "INSERT INTO items VALUES ('$id','$name','$price','$disprice','$img')";
         $this->conn->query($sql);
+
+        // get max size
+        $sql = "SELECT COUNT(ID_DELETED) FROM deleted_item";
+        $this->result=$this->conn->query($sql);
+        
+        // Xuất data.
+        $row = $this->result->fetch_row();
+        $id_deleted=$row[0]+1;
+
+        // insert deleted_item
+        $sql= "INSERT INTO deleted_item VALUES ('$id_deleted','$id','$name',now(),'')";
+        $this->conn->query($sql);
     }
+
     public function DeleteItem($id){
         $sql="DELETE FROM items WHERE ID_ITEM='$id'";
+        $this->conn->query($sql);
+
+        $sql="SELECT ID_DELETED FROM deleted_item WHERE LAST_ID_ITEM = '$id' ORDER BY ID_DELETED DESC";
+        $this->result=$this->conn->query($sql);
+        
+        // Xuất data.
+        $row = $this->result->fetch_row();
+        $id_deleted=$row[0];
+
+        $sql="UPDATE deleted_item SET DATE_DELETE=now() WHERE LAST_ID_ITEM='$id' AND ID_DELETED='$id_deleted'";
         $this->conn->query($sql);
     }
    
     public function UpdateItem($idUpdate,$name,$price,$disprice,$img){
-        // $sql="UPDATE items SET NAME='$name',PRICE='$price',DISCOUNT_PRICE='$disprice'";
-        // if($img=="img/"){
-        //     $sql+=", IMG_ITEM='$img'";
-        // }
-        // $sql+=" WHERE ID_ITEM='$idUpdate'";
         $sql="UPDATE items SET NAME='$name',PRICE='$price',DISCOUNT_PRICE='$disprice', IMG_ITEM='$img' WHERE ID_ITEM='$idUpdate'";
+        $this->conn->query($sql);
+
+        $sql="SELECT ID_DELETED FROM deleted_item WHERE LAST_ID_ITEM = '$idUpdate' ORDER BY ID_DELETED DESC";
+        $this->result=$this->conn->query($sql);
+        
+        // Xuất data.
+        $row = $this->result->fetch_row();
+        $id_deleted=$row[0];
+        $_SESSION['texx']=$id_deleted;
+        $sql="UPDATE deleted_item SET NAME_ITEM='$name' WHERE LAST_ID_ITEM='$idUpdate' AND ID_DELETED='$id_deleted'";
         $this->conn->query($sql);
     }
 
@@ -221,6 +288,21 @@ class Database {
             $valueContainer[$count] = $commentInfor;
             $count++;
         } 
+    }
+
+    ///////////////////////////Xóa tài khoản người dùng
+    public function deleteAccountById($id){
+
+        if(strpos($id, 'A') !== false){
+            $sql="DELETE FROM account WHERE ID='$id'";
+            $this->conn->query($sql);
+            $sql="DELETE FROM cus_review WHERE ID='$id'";
+            $this->conn->query($sql);
+        }
+        $sql="DELETE FROM buying_history WHERE ID='$id'";
+        $this->conn->query($sql);
+        $sql="DELETE FROM account_info WHERE ID='$id'";
+        $this->conn->query($sql);
     }
 
     public function LuckyCircleCondition($id){

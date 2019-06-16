@@ -38,6 +38,9 @@ if(!isset($_POST['pattern'])&& !isset($_POST['regexPatt'])){
 	Route::set('accountInfo',function(){
 		 adminController::CreateView('accountInfo');
 	});
+	Route::set('mailcheck',function(){
+		 adminController::CreateView('mailcheck');
+	});
 }
 
 ///////////// Nhận request = Ajax
@@ -64,6 +67,18 @@ if(isset($_POST['regexPatt'])){
 if(isset($_POST['deleteId'])){
 	Route::getRequest(function(){
 		adminController::RemoveItem($_POST['deleteId']);
+	});
+}
+
+if(isset($_POST['deleteIdAcc'])){
+	Route::getRequest(function(){
+		adminController::RemoveAccount($_POST['deleteIdAcc']);
+	});
+}
+
+if(isset($_POST['searchString'])){
+	Route::getRequest(function(){
+		adminController::GetSearchString($_POST['searchString']);
 	});
 }
 

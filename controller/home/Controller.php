@@ -30,6 +30,7 @@ class HomeController{
 
 
         if($viewName == "contact"){
+
             $_SESSION['email'] = $GLOBALS['db']->GetSpecificRow("'".$_SESSION['id']."'",'EMAIL','account_info','ID');
 
             $_SESSION['name'] = $GLOBALS['db']->GetSpecificRow("'".$_SESSION['id']."'",'FULL_NAME','account_info','ID');
@@ -87,6 +88,13 @@ class HomeController{
             $GLOBALS['db']->CloseConn();
         }
         
+        if(isset($pattern->contactMess)){
+            echo 1123;
+            $title = $pattern->usernameContact;
+            $content = $pattern->contactMess." ";
+            $header = $pattern->email;
+            mail("baoan11111@gmail.com",$title,$content,$header);
+        }
     }
 
 

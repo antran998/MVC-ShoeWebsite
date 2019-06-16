@@ -149,9 +149,19 @@
             <div class="row" id="listItems">
                <!-- draw item here -->
                <?php
-                    $sizeItem = $GLOBALS['db']->getSize('ID_ITEM','items');
-                    for($i = $sizeItem ;$i> 0;$i--){
+                    // $sizeItem = $GLOBALS['db']->getSize('ID_ITEM','items');
+                    // for($i = $sizeItem ;$i> 0;$i--){
+
+                    $sizeItem = $GLOBALS['db']->getMaxID('ID_ITEM','items');
+                    $i=$sizeItem;
+                    while($i!=0){
                         $idProduct = $GLOBALS['db']->GetSpecificRow($i,'ID_ITEM','items','ID_ITEM');
+                        // continue loop when item not exist
+                        if($idProduct===NULL){
+                            $i--;
+                            continue;
+                        }
+                        
                         $nameProduct = $GLOBALS['db']->GetSpecificRow($i,'NAME','items','ID_ITEM');
                         $price = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'PRICE','items','ID_ITEM'));
                         $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'DISCOUNT_PRICE','items','ID_ITEM'));
@@ -175,6 +185,7 @@
                             </div>
                             </div> 
                         ";
+                        $i--;
                     }
 
 

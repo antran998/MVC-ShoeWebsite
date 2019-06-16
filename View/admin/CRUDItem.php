@@ -16,7 +16,7 @@
 
 </head>
 <body >
-
+	
 	<div class="header-area">
         <div class="container align-user">            
             <ul class="list-unstyled list-inline">
@@ -61,6 +61,12 @@
 					</div>
                 </div>
             </div>
+            <div class="search-container">
+    			<form method="POST">
+      				<input type="text" placeholder="Tìm kiếm theo tên SP " name="search" id="searchString">
+      				<button type="submit"><i class="fa fa-search"></i></button>
+    			</form>
+  			</div>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -78,31 +84,30 @@
                 </thead>
                 <tbody id="data">
                     <?php
-                   $sizeItem = $GLOBALS['db']->getSize('ID_ITEM','items');
-                   for($i = 1;$i<=$sizeItem ;$i++){
-                       $idProduct = $GLOBALS['db']->GetSpecificRow($i,'ID_ITEM','items','ID_ITEM');
-                       $nameProduct = $GLOBALS['db']->GetSpecificRow($i,'NAME','items','ID_ITEM');
-                       $price = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'PRICE','items','ID_ITEM'));
-                       $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'DISCOUNT_PRICE','items','ID_ITEM'));
-                       $imgItem = $GLOBALS['db']->GetSpecificRow($i,'IMG_ITEM','items','ID_ITEM'); 
-                    
-                    
-                        echo '<tr>
-						<td>
+	                   if(isset($_SESSION['searchString'])){
+						$data=$GLOBALS['db']->ReturnListValueWithOption('items',$_SESSION['searchString'],'NAME');
+						}else{
+						 $data=$GLOBALS['db']->ReturnListValueWithOption('items','','');
+						}	                    
+						 while($row=mysqli_fetch_assoc($data)){
+	                    
+	                        echo '<tr>
+							<td>
+								
+							</td>
+	                        <td id="ID" name='.$row['ID_ITEM'].'>'.$row['ID_ITEM'].'</td>
+	                        <td>'.$row['NAME'].'</td>
+							<td>'.numberWithDots($row['PRICE']).'</td>
+	                        <td>'.numberWithDots($row['DISCOUNT_PRICE']).'</td>
+	                        <td><img src="lib/'.$row['IMG_ITEM'].'"></td>
+							<td>
 							
-						</td>
-                        <td id="ID" name='.$idProduct.'>'.$idProduct.'</td>
-                        <td>'.$nameProduct.'</td>
-						<td>'.$price.'</td>
-                        <td>'.$discountPrice.'</td>
-                        <td><img src="lib/'.$imgItem.'"></td>
-						<td>
-						
-                            <a href="#editEmployeeModal"  class="edit getIDedit" data-toggle="modal"  pro-id="'.$idProduct.'"><i  class="material-icons" data-toggle="tooltip" title="Edit"  >&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" class="delete getIDdelete" data-toggle="modal"  pro-id="'.$idProduct.'"><i class="material-icons" data-toggle="tooltip" title="Delete" >&#xE872;</i></a>
-						</td>
-                        </tr>';
-                    }
+	                            <a href="#editEmployeeModal"  class="edit getIDedit" data-toggle="modal"  pro-id="'.$row['ID_ITEM'].'"><i  class="material-icons" data-toggle="tooltip" title="Edit"  >&#xE254;</i></a>
+	                            <a href="#deleteEmployeeModal" class="delete getIDdelete" data-toggle="modal"  pro-id="'.$row['ID_ITEM'].'"><i class="material-icons" data-toggle="tooltip" title="Delete" >&#xE872;</i></a>
+							</td>
+	                        </tr>';
+						}
+						unset($_SESSION['searchString']);
                     ?>
                     
                 </tbody>
@@ -191,7 +196,7 @@
 					<div class="modal-body">					
 						<div class="form-group">
 							<label>ID</label>
-							<input type="text" class="form-control" id="idEdit" required>
+							<input type="text" class="form-control" id="idEdit" disabled>
 						</div>
 						<div class="form-group">
 							<label>Name</label>

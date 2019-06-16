@@ -1411,3 +1411,8 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 #info{
   margin: 0 auto;
 }
+
+/*ResetPassword*/
+.form-gap {
+    padding-top: 70px;
+}

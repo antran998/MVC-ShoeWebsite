@@ -236,10 +236,19 @@
                         <div class="product-carousel">
 
                             <?php
-                                $sizeItem = $GLOBALS['db']->getSize('ID_ITEM','items');
+                                $sizeItem = $GLOBALS['db']->getMaxID('ID_ITEM','items');
 
-                                for($i = $sizeItem ;$i> $sizeItem-6;$i--){
+                                $tempCount=1;
+                                $i=$sizeItem;
+                                while($tempCount!=7){
                                     $idProduct = $GLOBALS['db']->GetSpecificRow($i,'ID_ITEM','items','ID_ITEM');
+
+                                    // continue loop when item not exist
+                                    if($idProduct===NULL){
+                                        $i--;
+                                        continue;
+                                    }
+
                                     $nameProduct = $GLOBALS['db']->GetSpecificRow($i,'NAME','items','ID_ITEM');
                                     $price = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'PRICE','items','ID_ITEM'));
                                 $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'DISCOUNT_PRICE','items','ID_ITEM'));
@@ -262,6 +271,8 @@
                                         </div> 
                                     </div>
                                     ";
+                                    $tempCount++;
+                                    $i--;
                                 }
                             ?>  
                             
@@ -307,6 +318,12 @@
                             for($i = 0 ;$i< 3;$i++){
                                 
                                 $idProduct = $GLOBALS['db']->GetSpecificRow($quantityContainer[$i],'ID_ITEM','items','ID_ITEM');
+
+                                // continue loop when item not exist
+                                if($idProduct===NULL){
+                                    continue;
+                                }
+
                                 $nameProduct = $GLOBALS['db']->GetSpecificRow($quantityContainer[$i],'NAME','items','ID_ITEM');
                                 $price = numberWithDots($GLOBALS['db']->GetSpecificRow($quantityContainer[$i],'PRICE','items','ID_ITEM'));
                                 $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($quantityContainer[$i],'DISCOUNT_PRICE','items','ID_ITEM'));
@@ -335,48 +352,6 @@
 
                         ?>
 
-                        <!-- <div class="single-wid-product">
-                            <a href="single-product?id=6"><img src="lib/img/7.png" alt="" class="product-thumb"></a>
-                            <h2><a href="single-product?id=6">Adidas A 16+ Ultra Boost Cheetah BB7418</a></h2>
-                            <div class="product-wid-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product-wid-price">
-                                <ins>1.000.000đ</ins> <del>1.400.000đ</del>
-                            </div>                            
-                        </div>
-                        <div class="single-wid-product">
-                            <a href="single-product?id=7"><img src="lib/img/8.png" alt="" class="product-thumb"></a>
-                            <h2><a href="single-product?id=7">Nike AirMax 97 AT5458 002</a></h2>
-                            <div class="product-wid-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product-wid-price">
-                                <ins>1.500.000đ</ins> <del>1.600.000đ</del>
-                            </div>                            
-                        </div>
-                        <div class="single-wid-product">
-                            <a href="single-product?id=9"><img src="lib/img/10.png" alt="" class="product-thumb"></a>
-                            <h2><a href="single-product?id=9">VANS M005</a></h2>
-                            <div class="product-wid-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product-wid-price">
-                                <ins>2.000.000đ</ins> <del>2.200.000đ</del>
-                            </div>                            
-                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -392,6 +367,12 @@
                             for($i = 0 ;$i< 3;$i++){
                                 
                                 $idProduct = $GLOBALS['db']->GetSpecificRow($valueContainer[$i],'ID_ITEM','items','ID_ITEM');
+
+                                // continue loop when item not exist
+                                if($idProduct==''){
+                                    continue;
+                                }
+
                                 $nameProduct = $GLOBALS['db']->GetSpecificRow($valueContainer[$i],'NAME','items','ID_ITEM');
                                 $price = numberWithDots($GLOBALS['db']->GetSpecificRow($valueContainer[$i],'PRICE','items','ID_ITEM'));
                                 $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($valueContainer[$i],'DISCOUNT_PRICE','items','ID_ITEM'));
@@ -415,59 +396,25 @@
                                 ";
 
                             }
-                        ?>
-                        <!-- <div class="single-wid-product">
-                            <a href="single-product?id=0"><img src="lib/img/1.png" alt="" class="product-thumb"></a>
-                            <h2><a href="single-product?id=0">Adidas Alpha G28589</a></h2>
-                            <div class="product-wid-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product-wid-price">
-                                <ins>2.000.000đ</ins> <del>2.200.000đ</del>
-                            </div>                            
-                        </div>
-                        <div class="single-wid-product">
-                            <a href="single-product?id=1"><img src="lib/img/2.png" alt="" class="product-thumb"></a>
-                            <h2><a href="single-product?id=1">Adidas Alpha Bounce G28590</a></h2>
-                            <div class="product-wid-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product-wid-price">
-                                <ins>2.100.000đ</ins> <del>2.600.000đ</del>
-                            </div>                            
-                        </div>
-                        <div class="single-wid-product">
-                            <a href="single-product?id=2"><img src="lib/img/3.png" alt="" class="product-thumb"></a>
-                            <h2><a href="single-product?id=2">Adidas Alpha Bouce G28591</a></h2>
-                            <div class="product-wid-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product-wid-price">
-                                <ins>2.200.000đ</ins> <del>2.500.000đ</del>
-                            </div>                            
-                        </div> -->
+                        ?>                        
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="single-product-widget">
                         <h2 class="product-wid-title">Mới Nhất</h2>
                         <?php  
-                            $sizeItem = $GLOBALS['db']->getSize('ID_ITEM','items');
-
-                            for($i = $sizeItem ;$i> $sizeItem-3;$i--){
+                            $sizeItem = $GLOBALS['db']->getMaxID('ID_ITEM','items');
+                            $tempCount=1;
+                            $i=$sizeItem;
+                            while($tempCount!=4){
+                            
                                 $idProduct = $GLOBALS['db']->GetSpecificRow($i,'ID_ITEM','items','ID_ITEM');
+
+                                // continue loop when item not exist
+                                if($idProduct===NULL){                                 
+                                    $i--;
+                                    continue;
+                                }
                                 $nameProduct = $GLOBALS['db']->GetSpecificRow($i,'NAME','items','ID_ITEM');
                                 $price = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'PRICE','items','ID_ITEM'));
                                 $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'DISCOUNT_PRICE','items','ID_ITEM'));
@@ -489,6 +436,8 @@
                                         </div>                            
                                     </div>
                                 ";
+                                $tempCount++;
+                                $i--;
 
                             }
 

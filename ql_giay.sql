@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2019 at 06:26 AM
+-- Generation Time: Jun 16, 2019 at 08:27 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -40,7 +40,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`ID`, `USERNAME`, `PASSWORD`, `CREATE_TIME`) VALUES
-('A3548', 'antran456', '123456789', '2019-05-24 00:00:00');
+('A3548', 'antran456', '123456789', '2019-05-24 00:00:00'),
+('AD100', 'antran789', '123456789', '2019-05-30 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -62,8 +63,10 @@ CREATE TABLE `account_info` (
 --
 
 INSERT INTO `account_info` (`ID`, `FULL_NAME`, `EMAIL`, `ADDRESS`, `PHONE`, `MONEY_PAID`) VALUES
-('A3548', 'An Bả', 'baoan11111@gmail.com', '36 Trần Quang Cơ, Phú Thạnh, Tân Phú', '0395558787', 10950000),
-('G4337', 'An Trần', 'baoan11111@gmail.com', '36 Trần Quang Cơ', '0123456789', 1950000);
+('A3548', 'An Bảo', 'baoan11111@gmail.com', '36 Trần Quang Cơ, Phú Thạnh, Tân Phú', '0395558787', 0),
+('AD100', 'Trần Nguyễn Bảo An', 'scorpiopro123@gmail.com', '211 Thạch Lam', '0153818611', 5350000),
+('G287', 'Lộc Nguyễn', 'locnguyen@gmail.com', '98 Hoàng Sa', '0354645468', 3850000),
+('G462', 'Thúy Vân', 'vanthuy@gmail.com', '14 Nguyễn Trãi', '0351684685', 2150000);
 
 -- --------------------------------------------------------
 
@@ -74,7 +77,7 @@ INSERT INTO `account_info` (`ID`, `FULL_NAME`, `EMAIL`, `ADDRESS`, `PHONE`, `MON
 CREATE TABLE `buying_history` (
   `ID_HISTORY` int(11) NOT NULL,
   `ID` varchar(5) COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `ID_ITEM` int(20) NOT NULL,
+  `ID_ITEM` int(11) NOT NULL,
   `TOTAL_PRICE` double NOT NULL,
   `SINGLE_PRICE` double NOT NULL,
   `DATE_BOUGHT` datetime NOT NULL,
@@ -88,22 +91,11 @@ CREATE TABLE `buying_history` (
 --
 
 INSERT INTO `buying_history` (`ID_HISTORY`, `ID`, `ID_ITEM`, `TOTAL_PRICE`, `SINGLE_PRICE`, `DATE_BOUGHT`, `VOUCHER`, `QUANTITY`, `SHIPFEE`) VALUES
-(7, 'A3548', 5, 20000, 10000, '2019-05-29 02:06:56', 'ADVSD', 5, 20000),
-(58, 'A3548', 1, 2000000, 2000000, '2019-05-30 19:04:42', 'ADVSD', 1, 50000),
-(60, 'A3548', 12, 3950000, 1950000, '2019-05-31 01:35:21', 'ADVSD', 1, 50000),
-(67, 'A3548', 1, 3950000, 2000000, '2019-05-31 03:37:00', 'ADVSD', 1, 100000),
-(68, 'A3548', 12, 3950000, 1950000, '2019-05-31 03:37:00', 'ADVSD', 1, 100000),
-(69, 'G4337', 12, 1950000, 1950000, '2019-05-31 05:16:49', 'ADVSD', 1, 0),
-(71, 'A3548', 11, 1600000, 1600000, '2019-05-31 05:42:42', 'ADVSD', 1, 50000),
-(72, 'A3548', 12, 1950000, 1950000, '2019-05-31 05:43:53', 'ADVSD', 1, 50000),
-(73, 'A3548', 12, 1950000, 1950000, '2019-05-31 05:45:12', 'ADVSD', 1, 50000),
-(74, 'A3548', 9, 2100000, 2100000, '2019-05-31 05:47:53', 'ADVSD', 1, 0),
-(75, 'A3548', 10, 2000000, 2000000, '2019-05-31 05:51:13', 'ADVSD', 1, 100000),
-(76, 'A3548', 12, 1950000, 1950000, '2019-05-31 05:53:32', 'ADVSD', 1, 0),
-(77, 'A3548', 9, 2100000, 2100000, '2019-05-31 05:55:35', 'ADVSD', 1, 0),
-(78, 'A3548', 10, 2000000, 2000000, '2019-05-31 05:56:28', 'ADVSD', 1, 0),
-(79, 'A3548', 12, 1950000, 1950000, '2019-05-31 05:58:38', 'ADVSD', 1, 0),
-(80, 'A3548', 1, 2000000, 2000000, '2019-05-31 10:27:54', 'ADVSD', 1, 50000);
+(149, 'AD100', 11, 5300000, 1600000, '2019-06-16 12:42:36', '', 1, 50000),
+(150, 'AD100', 5, 5300000, 1600000, '2019-06-16 12:42:36', '', 1, 50000),
+(151, 'AD100', 2, 5300000, 2100000, '2019-06-16 12:42:36', '', 1, 50000),
+(152, 'G462', 9, 2100000, 2100000, '2019-06-16 19:05:32', '', 1, 50000),
+(153, 'G287', 6, 3800000, 3800000, '2019-06-16 19:11:35', '', 1, 50000);
 
 -- --------------------------------------------------------
 
@@ -114,9 +106,59 @@ INSERT INTO `buying_history` (`ID_HISTORY`, `ID`, `ID_ITEM`, `TOTAL_PRICE`, `SIN
 CREATE TABLE `cus_review` (
   `ID_REVIEW` int(11) NOT NULL,
   `ID` varchar(5) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `ID_ITEM` int(11) NOT NULL,
   `CONTENT` text COLLATE utf8mb4_vietnamese_ci NOT NULL,
-  `DATE_POST` datetime NOT NULL
+  `DATE_POST` datetime NOT NULL,
+  `STAR` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `cus_review`
+--
+
+INSERT INTO `cus_review` (`ID_REVIEW`, `ID`, `ID_ITEM`, `CONTENT`, `DATE_POST`, `STAR`) VALUES
+(1, 'A3548', 1, 'an', '2019-05-31 12:17:25', 4),
+(2, 'A3548', 1, 'hehe', '2019-05-31 12:18:06', 2),
+(3, 'A3548', 1, 'hoho', '2019-05-31 12:18:41', 1),
+(4, 'A3548', 1, 'hàng đẹp quá', '2019-05-31 12:20:35', 5),
+(7, 'A3548', 1, 'bad', '2019-06-04 02:03:22', 3),
+(10, 'A3548', 1, 'very', '2019-06-04 02:54:50', 4),
+(11, 'A3548', 12, 'high', '2019-06-04 02:55:21', 5),
+(13, 'A3548', 11, 'Mặt hàng này rất tốt', '2019-06-04 03:47:08', 5),
+(14, 'A3548', 9, 'good', '2019-06-07 02:06:59', 4),
+(15, 'A3548', 1, 'no', '2019-06-16 00:46:30', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deleted_item`
+--
+
+CREATE TABLE `deleted_item` (
+  `ID_DELETED` int(11) NOT NULL,
+  `LAST_ID_ITEM` int(11) NOT NULL,
+  `NAME_ITEM` varchar(100) COLLATE utf8mb4_vietnamese_ci NOT NULL,
+  `DATE_CREATE` datetime NOT NULL,
+  `DATE_DELETE` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `deleted_item`
+--
+
+INSERT INTO `deleted_item` (`ID_DELETED`, `LAST_ID_ITEM`, `NAME_ITEM`, `DATE_CREATE`, `DATE_DELETE`) VALUES
+(1, 1, 'Adidas Alpha G28589', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(2, 2, 'Adidas Alpha BG28590', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(3, 3, 'Adidas Alpha Bouce G28591', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(4, 4, 'Adidas Alpha Bouce G28592', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(5, 5, 'Adidas Oz Run F35560', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(6, 6, 'Adidas EE6254', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(7, 7, 'Adidas BC BB7418', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(8, 8, 'Nike AirMax AT545', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(9, 9, 'Nike Free AQ1289003', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(10, 10, 'VANS M005', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(11, 11, 'VANS M013', '2019-06-16 00:00:00', '0000-00-00 00:00:00'),
+(12, 12, 'NewBalance Tennis WC', '2019-06-16 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -125,7 +167,7 @@ CREATE TABLE `cus_review` (
 --
 
 CREATE TABLE `items` (
-  `ID_ITEM` int(20) NOT NULL,
+  `ID_ITEM` int(11) NOT NULL,
   `NAME` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `PRICE` double NOT NULL,
   `DISCOUNT_PRICE` double NOT NULL,
@@ -138,13 +180,13 @@ CREATE TABLE `items` (
 
 INSERT INTO `items` (`ID_ITEM`, `NAME`, `PRICE`, `DISCOUNT_PRICE`, `IMG_ITEM`) VALUES
 (1, 'Adidas Alpha G28589', 2200000, 2000000, 'img/1.png'),
-(2, 'Adidas Alpha BG28590', 2600000, 2100000, 'img/2.png'),
+(2, 'Adidas Alpha BG28590', 2500000, 2200000, 'img/2.png'),
 (3, 'Adidas Alpha Bouce G28591', 2500000, 2200000, 'img/3.png'),
 (4, 'Adidas Alpha Bouce G28592', 2200000, 2000000, 'img/4.png'),
 (5, 'Adidas Oz Run F35560', 1800000, 1600000, 'img/5.png'),
 (6, 'Adidas EE6254', 4000000, 3800000, 'img/6.png'),
 (7, 'Adidas BC BB7418', 2600000, 2500000, 'img/7.png'),
-(8, 'Nike AirMax AT5458', 1600000, 1500000, 'img/8.png'),
+(8, 'Nike AirMax AT5458', 2200000, 2100000, 'img/8.png'),
 (9, 'Nike Free AQ1289003', 2200000, 2100000, 'img/9.png'),
 (10, 'VANS M005', 2200000, 2000000, 'img/10.png'),
 (11, 'VANS M013', 1750000, 1600000, 'img/11.png'),
@@ -166,7 +208,14 @@ CREATE TABLE `voucher` (
 --
 
 INSERT INTO `voucher` (`ID_VOUCHER`, `STATUS`) VALUES
-('ADVSD', 'OK');
+('', 'default'),
+('ADVSD', 'OK'),
+('AVAARW', 'OK'),
+('FGIUI', 'OK'),
+('QKMEE', 'OK'),
+('SMDAJB', 'OK'),
+('VOIDLIFH', 'OK'),
+('ZKJKSDF', 'OK');
 
 --
 -- Indexes for dumped tables
@@ -201,7 +250,14 @@ ALTER TABLE `buying_history`
 --
 ALTER TABLE `cus_review`
   ADD PRIMARY KEY (`ID_REVIEW`),
-  ADD KEY `ACCOUNT_ID` (`ID`);
+  ADD KEY `ACCOUNT_ID` (`ID`),
+  ADD KEY `ITEM_ID` (`ID_ITEM`);
+
+--
+-- Indexes for table `deleted_item`
+--
+ALTER TABLE `deleted_item`
+  ADD PRIMARY KEY (`ID_DELETED`);
 
 --
 -- Indexes for table `items`
@@ -224,13 +280,13 @@ ALTER TABLE `voucher`
 -- AUTO_INCREMENT for table `buying_history`
 --
 ALTER TABLE `buying_history`
-  MODIFY `ID_HISTORY` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `ID_HISTORY` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT for table `cus_review`
 --
 ALTER TABLE `cus_review`
-  MODIFY `ID_REVIEW` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_REVIEW` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
@@ -247,14 +303,14 @@ ALTER TABLE `account`
 --
 ALTER TABLE `buying_history`
   ADD CONSTRAINT `ID_FOR_ACCOUNT` FOREIGN KEY (`ID`) REFERENCES `account_info` (`ID`),
-  ADD CONSTRAINT `ID_ITEM` FOREIGN KEY (`ID_ITEM`) REFERENCES `items` (`ID_ITEM`),
   ADD CONSTRAINT `ID_VOUCHER` FOREIGN KEY (`VOUCHER`) REFERENCES `voucher` (`ID_VOUCHER`);
 
 --
 -- Constraints for table `cus_review`
 --
 ALTER TABLE `cus_review`
-  ADD CONSTRAINT `ACCOUNT_ID` FOREIGN KEY (`ID`) REFERENCES `account_info` (`ID`);
+  ADD CONSTRAINT `ACCOUNT_ID` FOREIGN KEY (`ID`) REFERENCES `account_info` (`ID`),
+  ADD CONSTRAINT `ITEM_ID` FOREIGN KEY (`ID_ITEM`) REFERENCES `items` (`ID_ITEM`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

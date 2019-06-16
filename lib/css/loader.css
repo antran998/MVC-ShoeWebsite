@@ -1,0 +1,27 @@
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #009900;
+  border-right: 16px solid #00cc00;
+  border-bottom: 16px solid #00ff00;
+  border-left: 16px solid #4dff4d;
+  width: 150px;
+  height: 150px;
+  margin-top: 18%;
+  margin-left: 45%;
+  position: fixed;
+  z-index: 9999;
+  display: none;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

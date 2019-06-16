@@ -156,10 +156,15 @@
 
                         <?php  
 
-                            $sizeItem = $GLOBALS['db']->getSize('ID_ITEM','items');
-
-                            for($i = $sizeItem ;$i> $sizeItem-8;$i--){
+                            $sizeItem = $GLOBALS['db']->getMaxID('ID_ITEM','items');
+                            $tempCount=1;
+                            $i=$sizeItem;
+                            while($tempCount!=9){
                                 $idProduct = $GLOBALS['db']->GetSpecificRow($i,'ID_ITEM','items','ID_ITEM');
+                                if($idProduct===NULL){
+                                    $i--;
+                                    continue;
+                                }
                                 $nameProduct = $GLOBALS['db']->GetSpecificRow($i,'NAME','items','ID_ITEM');
                                 $price = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'PRICE','items','ID_ITEM'));
                                 $discountPrice = numberWithDots($GLOBALS['db']->GetSpecificRow($i,'DISCOUNT_PRICE','items','ID_ITEM'));
@@ -174,7 +179,8 @@
                                         </div>                             
                                     </div>
                                 ";
-
+                                $tempCount++;
+                                $i--;
                             }
 
                         ?>                       
@@ -238,7 +244,7 @@
                                             
                                             <?php if(strpos($_SESSION['id'], 'A') !== false){ 
                                                 
-                                                $data=$GLOBALS['db']->ReturnListValue('account_info');
+                                                $data=$GLOBALS['db']->ReturnListValueWithOption('account_info','','');
                                                 while($row=mysqli_fetch_assoc($data)){
                                                 if($row['ID']== $_SESSION['id']){
 

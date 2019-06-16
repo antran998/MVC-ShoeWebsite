@@ -7,6 +7,9 @@ class adminController{
         if(isset($_POST['logout'])){
             adminController::LogOut();
         }
+        if($viewName=="mailcheck"){
+            adminController::CheckResetPassword();
+        }
         if($viewName=="addUser"){
             $ranID="";
             $compareID="CreateVar";
@@ -20,6 +23,10 @@ class adminController{
         
         require_once('View/admin/'.$viewName.'.php');
         $GLOBALS['db']->CloseConn();
+    }
+
+    public static function GetSearchString($tmp){
+        $_SESSION['searchString']=$tmp;
     }
     
     public static function CheckLogin(){
@@ -56,10 +63,36 @@ class adminController{
     }
 
     public static function RemoveItem($index){
-            $GLOBALS['db']->DeleteItem($index);
-        
+            $GLOBALS['db']->DeleteItem($index);        
+    }
+
+    public static function RemoveAccount($index){
+        $GLOBALS['db']->deleteAccountById($index);
     }
    
+    public static function CheckResetPassword(){
+        if(isset($_POST['recover-submit'])){
+            $email = $_POST['email'];
+            $check=$GLOBALS['db']->ReturnRegistryEmail($email);
+            if($check==true){
+                echo '<br/>';
+                while($data = mysqli_fetch_assoc($GLOBALS['db']->GetResult())){
+                    $id=$data['ID'];
+                    $currentPassword=$GLOBALS['db']->GetCurrentPassword($id);
+                    $message = "Bấm vào link sau để lấy lại mật khẩu".$currentPassword;
+                    mail("hienkwan@gmail.com","ResetPassord",$message,"From SneakerBoy");
+                    
+                }
+                echo '<script>alert(Mời bạn check mail để lấy lại mật khẩu!!!);</script>';
+                header('Location: home');
+                
+            }else{
+                echo '<script>alert("Email không đúng");</script>';
+            }
+        }
+    }
+
+
     public static function SendData($pattern){
         $pattern=json_decode($pattern);
        
@@ -90,6 +123,7 @@ class adminController{
             $address=$pattern->address;
             $email=$pattern->email;
             $phone=$pattern->phone;
+            $password=$pattern->password;
             $GLOBALS['db']->insertAccount($idInsertAcc,$username,$password,$fullname,$email,$address,$phone);
             $GLOBALS['db']->CloseConn();
         }else

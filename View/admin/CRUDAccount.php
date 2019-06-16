@@ -61,6 +61,12 @@
 					</div>
                 </div>
             </div>
+            <div class="search-container">
+			    <form method="POST">
+				    <input type="text" placeholder="Tìm kiếm theo tên TK" name="search" id="searchString">
+				    <button type="submit"><i class="fa fa-search"></i></button>
+			    </form>
+		  	</div>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -80,9 +86,11 @@
 					
                     <?php
 
-	                   $data=$GLOBALS['db']->ReturnListValue('account_info');
-	                
-	                    
+	                   if(isset($_SESSION['searchString'])){
+	                   $data=$GLOBALS['db']->ReturnListValueWithOption('account_info',$_SESSION['searchString'],'FULL_NAME');
+					   }else{
+						$data=$GLOBALS['db']->ReturnListValueWithOption('account_info','','');
+					   }	                    
 	                    while($row=mysqli_fetch_assoc($data)){
 	                        echo '<tr>
 							<td>
@@ -95,11 +103,12 @@
 	                        <td>'.$row['PHONE'].'</td>
 							<td>
 							
-	                            <a href="#editEmployeeModal"  class="edit getIDeditAcc" data-toggle="modal"  acc-id="'.$row['ID'].'"><i  class="material-icons" data-toggle="tooltip" title="Edit" onclick="loadEditAcc()">&#xE254;</i></a>
+	                            <a href="#editEmployeeModal"  class="edit getIDeditAcc" data-toggle="modal"  acc-id="'.$row['ID'].'"><i  class="material-icons" data-toggle="tooltip" title="Edit"  >&#xE254;</i></a>
 	                            <a href="#deleteEmployeeModal" class="delete getIDdeleteAcc" data-toggle="modal"  acc-id="'.$row['ID'].'"><i class="material-icons" data-toggle="tooltip" title="Delete" >&#xE872;</i></a>
 							</td>
 	                        </tr>';
-	                    }
+						}
+						unset($_SESSION['searchString']);
                     ?>
                     
                 </tbody>
@@ -132,13 +141,13 @@
 					<div class="modal-body">					
 						<div class="form-group">
 							<label>ID</label>
-							<span class="inline-validate" id="check"></span>
-							<input type="text" id="idInsertAcc" class="form-control" name="id" required>
+							<span class="inline-validate" id="check4"></span>
+							<input type="text" id="idInsertAcc" class="form-control" name="id" required oninput="validateForm(idInsertAcc,check4,regexCheckout[6]);">
 						</div>
 						<div class="form-group">
 							<label>Tên tài khoản</label>
 							<span class="inline-validate" id="check5"></span>
-							<input type="text" id="nameInsertAcc" class="form-control"  name="name" required oninput="validateForm(nameInsertAcc,check8,regexCheckout[5]);">
+							<input type="text" id="nameInsertAcc" class="form-control"  name="name" required oninput="validateForm(nameInsertAcc,check5,regexCheckout[5]);">
 						</div>
 						<div class="form-group">
 							<label>Mật khẩu</label>
@@ -148,7 +157,7 @@
 						<div class="form-group">
 							<label>Nhập lại mật khẩu</label>
 							<span class="inline-validate" id="check7"></span>
-							<input type="password" id="repeatPassword" class="form-control"  name="repeatPassword" required>
+							<input type="password" id="repeatPassword" class="form-control"  name="repeatPassword" required oninput="checkpass(password, check7, repeatPassword)">
 						</div>
 						<div class="form-group">
 							<label>Họ tên</label>
