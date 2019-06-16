@@ -1,0 +1,19 @@
+
+#myDiv {
+  transform: rotate(315.5deg); /* Standard syntax */
+  margin-top: 10%;
+  margin-left: 83%;
+}
+
+.border{
+	position: absolute;
+  margin-top: 13%;
+  margin-left: 86%;
+	z-index: 9999;
+}
+.lucky-wheel{
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: 0.5;
+}
