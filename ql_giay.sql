@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 16, 2019 at 08:27 PM
+-- Generation Time: Jun 17, 2019 at 09:36 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.3
 
@@ -41,6 +41,7 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`ID`, `USERNAME`, `PASSWORD`, `CREATE_TIME`) VALUES
 ('A3548', 'antran456', '123456789', '2019-05-24 00:00:00'),
+('A5606', 'taimatseo555', 'x@T12345', '2019-06-18 01:27:17'),
 ('AD100', 'antran789', '123456789', '2019-05-30 00:00:00');
 
 -- --------------------------------------------------------
@@ -63,7 +64,8 @@ CREATE TABLE `account_info` (
 --
 
 INSERT INTO `account_info` (`ID`, `FULL_NAME`, `EMAIL`, `ADDRESS`, `PHONE`, `MONEY_PAID`) VALUES
-('A3548', 'An Bảo', 'baoan11111@gmail.com', '36 Trần Quang Cơ, Phú Thạnh, Tân Phú', '0395558787', 0),
+('A3548', 'An Bảo', 'baoan11111@gmail.com', '36 Trần Quang Cơ, Phú Thạnh, Tân Phú', '0395558787', 9870000),
+('A5606', 'Tấn Tài', 'tantai@gmail.com', '155 Hòa Bình', '0384648948', 0),
 ('AD100', 'Trần Nguyễn Bảo An', 'scorpiopro123@gmail.com', '211 Thạch Lam', '0153818611', 5350000),
 ('G287', 'Lộc Nguyễn', 'locnguyen@gmail.com', '98 Hoàng Sa', '0354645468', 3850000),
 ('G462', 'Thúy Vân', 'vanthuy@gmail.com', '14 Nguyễn Trãi', '0351684685', 2150000);
@@ -95,7 +97,13 @@ INSERT INTO `buying_history` (`ID_HISTORY`, `ID`, `ID_ITEM`, `TOTAL_PRICE`, `SIN
 (150, 'AD100', 5, 5300000, 1600000, '2019-06-16 12:42:36', '', 1, 50000),
 (151, 'AD100', 2, 5300000, 2100000, '2019-06-16 12:42:36', '', 1, 50000),
 (152, 'G462', 9, 2100000, 2100000, '2019-06-16 19:05:32', '', 1, 50000),
-(153, 'G287', 6, 3800000, 3800000, '2019-06-16 19:11:35', '', 1, 50000);
+(153, 'G287', 6, 3800000, 3800000, '2019-06-16 19:11:35', '', 1, 50000),
+(154, 'A3548', 1, 10150000, 2000000, '2019-06-17 21:54:22', 'ADVSD20', 1, 50000),
+(155, 'A3548', 12, 10150000, 1950000, '2019-06-17 21:54:22', 'ADVSD20', 1, 50000),
+(156, 'A3548', 9, 10150000, 2100000, '2019-06-17 21:54:22', 'ADVSD20', 1, 50000),
+(157, 'A3548', 8, 10150000, 2100000, '2019-06-17 21:54:22', 'ADVSD20', 1, 50000),
+(158, 'A3548', 10, 10150000, 2000000, '2019-06-17 21:54:22', 'ADVSD20', 1, 50000),
+(160, 'A3548', 5, 1600000, 1600000, '2019-06-18 01:33:29', '', 1, 100000);
 
 -- --------------------------------------------------------
 
@@ -209,7 +217,7 @@ CREATE TABLE `voucher` (
 
 INSERT INTO `voucher` (`ID_VOUCHER`, `STATUS`) VALUES
 ('', 'default'),
-('ADVSD', 'OK'),
+('ADVSD20', 'X'),
 ('AVAARW', 'OK'),
 ('FGIUI', 'OK'),
 ('QKMEE', 'OK'),
@@ -280,7 +288,7 @@ ALTER TABLE `voucher`
 -- AUTO_INCREMENT for table `buying_history`
 --
 ALTER TABLE `buying_history`
-  MODIFY `ID_HISTORY` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
+  MODIFY `ID_HISTORY` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `cus_review`

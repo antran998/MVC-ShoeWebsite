@@ -176,6 +176,19 @@ class adminController{
             }
             $GLOBALS['db']->CloseConn();
         }
+        if(isset($pattern->resetEmail)){
+            $returnIDCheckByMail=$GLOBALS['db']->ReturnRegistryEmail($pattern->resetEmail);
+            $currentPassword=$GLOBALS['db']->ReturnRegistryPassworByUsername($pattern->usernameReset,$returnIDCheckByMail);
+            if($currentPassword!=NULL){
+                    $message = "Mật khẩu của bạn là :".$currentPassword;
+                    mail($pattern->resetEmail,"ResetPassord",$message,"From SneakerBoy");
+                    echo 1;
+            }else{
+                echo 0;
+                
+            }
+            $GLOBALS['db']->CloseConn();
+        }
         
         
         

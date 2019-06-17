@@ -13,7 +13,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="lib/css/mail.css">
 	</head>
-	<body>
+	<body onload="loadConfirmText();">
 		<div class="text-center">
 			<!-- Button HTML (to Trigger Modal) -->
 			<a href="#myModal" id="alertsuccess" class="trigger-btn" data-toggle="modal"></a>
@@ -30,7 +30,7 @@
 						<h4 class="modal-title">Success!</h4>	
 					</div>
 					<div class="modal-body">
-						<p class="text-center">Chúng tôi đã gửi mail đến bạn hãy kiểm tra nhé.</p>
+						<p class="text-center" id="confirmText"><?php if(isset($_SESSION['confirmText'])){echo $_SESSION['confirmText']; unset($_SESSION['confirmText']);} ?></p>
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>

@@ -69,7 +69,7 @@
                     echo 
                     '<li><a href="accountInfo" target="_blank"><i class="fa fa-info-circle"></i> '.$_SESSION['username'].'</a></li>
                     <li><form action="" class="form-signup" method="POST">
-                        <button type="submit" name="logout" onclick="clearCart();" id="logout">LogOut</button>
+                        <button type="submit" name="logout" id="logout">LogOut</button>
                     </form></li>';
                 }
                 ?>
@@ -315,12 +315,11 @@
                 
                 <div class="col-md-3 col-sm-6">
                     <div class="footer-newsletter">
-                        <h2 class="footer-wid-title">Bản Tin</h2>
-                        <p>Đăng ký nhận bản tin của chúng tôi và nhận các ưu đãi độc quyền mà bạn sẽ không tìm thấy ở bất cứ nơi nào khác trực tiếp đến hộp thư đến của bạn!</p>
+                        <h2 class="footer-wid-title">Khuyến khích</h2>
+                        <p>Đăng nhập giúp đánh giá sản phẩm của SneakBoys, giúp SneakBoys phát triển và nhận những ưu đãi bất ngờ từ SneakBoys</p>
                         <div class="newsletter-form">
-                            <form action="#">
-                                <input type="email" placeholder="Type your email">
-                                <input type="submit" value="Đăng ký" onclick="myFunction()">
+                            <form action="addUser">
+                                <input type="submit" value="Đăng nhập">
                             </form>
                         </div>
                     </div>
@@ -370,5 +369,6 @@
     <script type="text/javascript" src="lib/js/search-bar.js"></script>
     <script type="text/javascript" src="lib/js/show.js"></script>
     <script type="text/javascript" src="lib/js/chatbox.js"></script>
+    <script type="text/javascript" src="lib/js/logout.js"></script>
   </body>
 </html>

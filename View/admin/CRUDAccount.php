@@ -256,5 +256,6 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="lib/js/CRUDaccount.js"></script>
 	<script type="text/javascript" src="lib/js/validate.js"></script>
+	<script type="text/javascript" src="lib/js/logout.js"></script>
 </body>
 </html>

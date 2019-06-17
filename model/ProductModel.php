@@ -1,5 +1,6 @@
 <?php
 class Database {
+    
     private $hostname='localhost';
     private $username='root';
     private $password='';
@@ -14,9 +15,9 @@ class Database {
             echo 'Connect Failed';
             exit();
         }
-        else{
-            mysqli_set_charset($this->conn,'utf8');
-        }
+
+        mysqli_set_charset($this->conn,'utf8');
+
         return $this->conn;
     }
 
@@ -166,14 +167,25 @@ class Database {
 
     //check exist Email
      public function ReturnRegistryEmail($email){
-        $sql="SELECT * FROM account_info WHERE EMAIL='$email'";
+        $sql="SELECT ID FROM account_info WHERE EMAIL='$email'";
         $this->result=$this->conn->query($sql);
-        $num_rows=mysqli_num_rows($this->result);
-        if($num_rows==0){
-            return false;
+        while($row=mysqli_fetch_assoc($this->result)){
+            $result = $row['ID'];
         }
-        else
-            return true;
+        return $result;
+    }
+
+    public function ReturnRegistryPassworByUsername($username,$id){
+        $sql="SELECT PASSWORD FROM account WHERE USERNAME='$username' AND ID='$id'";
+        $this->result=$this->conn->query($sql);
+        while($row=mysqli_fetch_assoc($this->result)){
+            return $row['PASSWORD'];
+        }
+    }
+
+    public function ReturnListValue($tableName){
+        $sql = "SELECT * FROM ".$tableName;
+        return $this->result=$this->conn->query($sql);      
     }
 
     //return list value from specific table or searchString

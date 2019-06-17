@@ -12,82 +12,79 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="lib/css/style.css" type='text/css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="lib/css/loader.css">
     <title>Đăng nhập</title>
 </head>
 <body>
-    <div id="logreg-forms">
-        <form class="form-signin" method="POST" action="home">
-            <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
-            <div class="social-login" style="text-align: center">
-                <button class="btn facebook-btn social-btn home" type="button" name="buttonHome"><span>Trang Chủ</span> </button>
-            </div>
-            <p style="text-align:center"> OR  </p>
-            <input  id="inputEmail" class="form-control" placeholder="Tên đăng nhập" required="" autofocus="" name="usernameLogin">
-            <input type="password" id="inputPassword" class="form-control" placeholder="Mật khẩu" required="" name="passwordLogin">
+    <!-- loader -->
+    <div class="loader" id="theLoader"></div>
+
+    <div id="hidden_container">
+        <div id="logreg-forms">
+            <form class="form-signin" method="POST" action="home">
+                <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
+                <div class="social-login" style="text-align: center">
+                    <button class="btn facebook-btn social-btn home" type="button" name="buttonHome"><span>Trang Chủ</span> </button>
+                </div>
+
+                <input  id="inputEmail" class="form-control" placeholder="Tên đăng nhập" required="" autofocus="" name="usernameLogin">
+                <input type="password" id="inputPassword" class="form-control" placeholder="Mật khẩu" required="" name="passwordLogin">
+                
+                <button class="btn btn-success btn-block" type="submit" name="login"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+                <a href="#" id="forgot_pswd">Forgot password?</a>
+                <hr>
+                <!-- <p>Don't have an account!</p>  -->
+                <button class="btn btn-primary btn-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i> Sign up New Account</button>
+            </form>
             
-            <button class="btn btn-success btn-block" type="submit" name="login"><i class="fas fa-sign-in-alt"></i> Sign in</button>
-            <a href="#" id="forgot_pswd">Forgot password?</a>
-            <hr>
-            <!-- <p>Don't have an account!</p>  -->
-            <button class="btn btn-primary btn-block" type="button" id="btn-signup"><i class="fas fa-user-plus"></i> Sign up New Account</button>
-        </form>
+            <form class="form-reset">
+                <input type="email" id="resetEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+                <input type="text" id="usernameReset" class="form-control" placeholder="Username" required="" autofocus="">
+                <button class="btn btn-primary btn-block Reset" type="submit" >GỬI PASSWORD QUA EMAIL</button>
+                <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
+            </form>
+            <form action="" class="form-signup" method="POST">                      
+                <div class="float-container">
+                    <label id="check0"></label>
+                    <input type="text" id="fullname" class="form-control" placeholder="Họ tên"  autofocus="" name="fullname" oninput="validateForm(fullname,check0,regexCheckout[0])">
+                </div>
 
-        <form action="mailcheck" class="form-reset">
-            <input type="email" id="resetEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-            <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
-            <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
-        </form>
-        <form action="" class="form-signup" method="POST">
-            <div class="social-login">
-                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign up with Facebook</span> </button>
-            </div>
-            <div class="social-login">
-                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign up with Google+</span> </button>
-            </div>
-            
-            <p style="text-align:center">OR</p>
-                     
+                <div class="float-container">
+                    <label id="check1"></label>
+                    <input type="text" id="address" class="form-control" placeholder="Địa chỉ"  autofocus="" name="address" oninput="validateForm(address,check1,regexCheckout[1])">
+                </div>             
 
-            <div class="float-container">
-                <label id="check0"></label>
-                <input type="text" id="fullname" class="form-control" placeholder="Họ tên"  autofocus="" name="fullname" oninput="validateForm(fullname,check0,regexCheckout[0])">
-            </div>
+                <div class="float-container">
+                    <label id="check2"></label>
+                    <input type="text" id="email" class="form-control" placeholder="Email"  autofocus="" name="email" oninput="validateForm(email,check2,regexCheckout[2])">
+                </div>                       
 
-            <div class="float-container">
-                <label id="check1"></label>
-                <input type="text" id="address" class="form-control" placeholder="Địa chỉ"  autofocus="" name="address" oninput="validateForm(address,check1,regexCheckout[1])">
-            </div>             
+                <div class="float-container">
+                    <label id="check3"></label>
+                    <input type="text" id="phone" class="form-control" placeholder="Số điện thoại"  autofocus="" name="phonenum" oninput="validateForm(phone,check3,regexCheckout[3])">
+                </div>
 
-            <div class="float-container">
-                <label id="check2"></label>
-                <input type="text" id="email" class="form-control" placeholder="Email"  autofocus="" name="email" oninput="validateForm(email,check2,regexCheckout[2])">
-            </div>                       
+                <div class="float-container">
+                    <label id="check5"></label>
+                    <input type="text" id="user_name" class="form-control" placeholder="Tên tài khoản" required="" autofocus="" name="username" oninput="validateForm(user_name,check5,regexCheckout[5])">
+                </div>
+                
+                <div class="float-container">
+                    <label id="check4"></label>
+                    <input type="password" id="user_pass" class="form-control" placeholder="Mật khẩu" required autofocus="" name="pass" oninput="validateForm(user_pass,check4,regexCheckout[4])">
+                </div>            
 
-            <div class="float-container">
-                <label id="check3"></label>
-                <input type="text" id="phone" class="form-control" placeholder="Số điện thoại"  autofocus="" name="phonenum" oninput="validateForm(phone,check3,regexCheckout[3])">
-            </div>
-
-            <div class="float-container">
-                <label id="check5"></label>
-                <input type="text" id="user_name" class="form-control" placeholder="Tên tài khoản" required="" autofocus="" name="username" oninput="validateForm(user_name,check5,regexCheckout[5])">
-            </div>
-            
-            <div class="float-container">
-                <label id="check4"></label>
-                <input type="password" id="user_pass" class="form-control" placeholder="Mật khẩu" required autofocus="" name="pass" oninput="validateForm(user_pass,check4,regexCheckout[4])">
-            </div>            
-
-            <div class="float-container">
-                <label id="check6"></label>
-                <input type="password" id="user_repeatpass" class="form-control" placeholder="Nhập lại mật khẩu" required autofocus="" name="pass-repeat" oninput="checkpass(user_pass, check6, user_repeatpass)">
-            </div>
-            
-            <button class="btn btn-primary btn-block Registry" type="submit" name="btn_submit"><i class="fas fa-user-plus"></i> Sign Up</button>
-            <a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> Back</a>
-        </form>
-        <br>
-            
+                <div class="float-container">
+                    <label id="check6"></label>
+                    <input type="password" id="user_repeatpass" class="form-control" placeholder="Nhập lại mật khẩu" required autofocus="" name="pass-repeat" oninput="checkpass(user_pass, check6, user_repeatpass)">
+                </div>
+                
+                <button class="btn btn-primary btn-block Registry" type="submit" name="btn_submit"><i class="fas fa-user-plus"></i> Sign Up</button>
+                <a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> Back</a>
+            </form>
+            <br>
+                
+        </div>
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

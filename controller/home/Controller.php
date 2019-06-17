@@ -41,22 +41,22 @@ class HomeController{
         $GLOBALS['db']->CloseConn();
     }
 
-    //Nhận và gửi lại request tìm kiếm
-    public static function SendDataAjax($pattern){
-        $pattern = json_decode($pattern);
-        if(isset($pattern->list[0]->quantity)){
+    public static function CreatePaypalView($viewName){
+        require_once('PaypalTest/'.$viewName.'.php');  
+        if($viewName=='pay' && isset($_SESSION['paymentSuccess'])){
 
+            ////////////////////
             $idExist = $GLOBALS['db']->GetSpecificRow("'".$_SESSION['id']."'",'ID','account_info','ID');
             // thêm khách vãng lai 
             if($idExist==''){
-                $idPaid = $pattern->totalPrice - $pattern->totalPrice*$pattern->voucherPercent + $pattern->shipFee;
+                $idPaid = $_SESSION['pattern']->totalPrice - $_SESSION['pattern']->totalPrice*$_SESSION['pattern']->voucherPercent + $_SESSION['pattern']->shipFee;
 
-                $GLOBALS['db']->GuestData($_SESSION['id'],$pattern->fullname,$pattern->email,$pattern->address,$pattern->phone,$idPaid);
+                $GLOBALS['db']->GuestData($_SESSION['id'],$_SESSION['pattern']->fullname,$_SESSION['pattern']->email,$_SESSION['pattern']->address,$_SESSION['pattern']->phone,$idPaid);
             }
             // cộng tiền cho account có sẵn
             // if(strpos($_SESSION['id'], 'A') !== false){
             else{
-                $idPaid = $pattern->totalPrice - $pattern->totalPrice*$pattern->voucherPercent + $pattern->shipFee;
+                $idPaid = $_SESSION['pattern']->totalPrice - $_SESSION['pattern']->totalPrice*$_SESSION['pattern']->voucherPercent + $_SESSION['pattern']->shipFee;
 
                 $currentMoneyPaid= $GLOBALS['db']->GetSpecificRow("'".$_SESSION['id']."'",'MONEY_PAID','account_info','ID');
 
@@ -66,21 +66,35 @@ class HomeController{
             }            
             $newVoucher=$_SESSION['voucher'];
             // Thêm voucher
-            if($pattern->voucherPercent>0){
-                $newVoucher = $_SESSION['voucher'].(string)($pattern->voucherPercent*100);
+            if($_SESSION['pattern']->voucherPercent>0){
+                $newVoucher = $_SESSION['voucher'].(string)($_SESSION['pattern']->voucherPercent*100);
                 $GLOBALS['db']->UpdateVoucherStatus($_SESSION['voucher']);
                 $GLOBALS['db']->UpdateVoucherID($_SESSION['voucher'],$newVoucher);
             }
 
             // thêm lịch sử mua hàng     
-            for ($j=0; $j < count($pattern->list); $j++) {
-                $GLOBALS['db']->BuyAction($_SESSION['id'],$pattern->list[$j]->id,$pattern->totalPrice,$pattern->list[$j]->prices,$newVoucher,$pattern->list[$j]->quantity,$pattern->shipFee);
+            for ($j=0; $j < count($_SESSION['pattern']->list); $j++) {
+                $GLOBALS['db']->BuyAction($_SESSION['id'],$_SESSION['pattern']->list[$j]->id,$_SESSION['pattern']->totalPrice,$_SESSION['pattern']->list[$j]->prices,$newVoucher,$_SESSION['pattern']->list[$j]->quantity,$_SESSION['pattern']->shipFee);
             }
 
             if(strpos($_SESSION['id'], 'G') !== false){
                 unset($_SESSION['id']);
             }
+
+            unset($_SESSION['pattern']);
+            unset($_SESSION['paymentSuccess']);
+            $_SESSION['confirmText']='Chúc mừng bạn đã thanh toán thành công';
             $GLOBALS['db']->CloseConn();
+            header('location: mailcheck');
+        }    
+    }
+
+    //Nhận và gửi lại request tìm kiếm
+    public static function SendDataAjax($pattern){
+        $pattern = json_decode($pattern);
+
+        if(isset($pattern->list[0]->quantity)){
+            $_SESSION['pattern']=$pattern;
         }
 
         if(isset($pattern->mess)){
@@ -89,7 +103,6 @@ class HomeController{
         }
         
         if(isset($pattern->contactMess)){
-            echo 1123;
             $title = $pattern->usernameContact;
             $content = $pattern->contactMess." ";
             $header = $pattern->email;

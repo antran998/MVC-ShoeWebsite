@@ -25,6 +25,10 @@ if(!isset($_POST['pattern'])&& !isset($_POST['regexPatt'])){
 		HomeController::CreateView('contact');
 	});
 
+	Route::set('checkoutPaypal',function(){
+		HomeController::CreatePaypalView('checkoutPaypal');
+	});
+
 	//////////////////////load view admin
 	Route::set('addUser',function(){		
 		adminController::CreateView('addUser');
@@ -41,6 +45,12 @@ if(!isset($_POST['pattern'])&& !isset($_POST['regexPatt'])){
 	Route::set('mailcheck',function(){
 		 adminController::CreateView('mailcheck');
 	});
+
+	if(isset($_GET['success'])){
+		Route::set('pay',function(){
+			HomeController::CreatePaypalView('pay');
+		});
+	}
 }
 
 ///////////// Nhận request = Ajax
