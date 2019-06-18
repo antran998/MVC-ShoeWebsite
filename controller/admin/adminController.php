@@ -86,8 +86,8 @@ class adminController{
             
             // $GLOBALS['db']->InsertItem($idInsert,$nameInsert,$priceInsert,$dispriceInsert,$imgUrl);
             // $GLOBALS['db']->CloseConn();
-            $checkID=adminController::CheckExistIDItem($idInsert);
-            if($check==true){
+            $checkID=$GLOBALS['db']->CheckExistIDItem($idInsert);
+            if($checkID==true){
             $GLOBALS['db']->InsertItem($idInsert,$nameInsert,$priceInsert,$dispriceInsert,$imgUrl);
             $GLOBALS['db']->CloseConn();
             echo 1;
@@ -115,9 +115,10 @@ class adminController{
             $password=$pattern->password;
             // $GLOBALS['db']->insertAccount($idInsertAcc,$username,$password,$fullname,$email,$address,$phone);
             // $GLOBALS['db']->CloseConn();
-            $check=adminController::CheckExistUsername($usernameRegistry);
-            $IDcheck=$GLOBALS['db']->GetSpecificRow("'".$idInsertAcc."'",'ID','account_info','ID');
-            if($check==true&&$IDcheck!=''){
+            $check=$GLOBALS['db']->CheckExistUsername($username);
+            // $IDcheck=$GLOBALS['db']->GetSpecificRow("'".$idInsertAcc."'",'ID','account_info','ID');
+            // echo $IDcheck;
+            if($check==true){
             $GLOBALS['db']->insertAccount($idInsertAcc,$username,$password,$fullname,$email,$address,$phone);
             $GLOBALS['db']->CloseConn();
             echo 1;
@@ -135,7 +136,7 @@ class adminController{
 
             // $GLOBALS['db']->insertAccount($_SESSION['tempid'],$usernameRegistry,$passwordRegistry,$fullnameRegistry,$emailRegistry,$addressRegistry,$phoneRegistry);
             // $GLOBALS['db']->CloseConn();
-            $check=adminController::CheckExistUsername($usernameRegistry);
+            $check=$GLOBALS['db']->CheckExistUsername($usernameRegistry);
             if($check==true){
             $GLOBALS['db']->insertAccount($_SESSION['tempid'],$usernameRegistry,$passwordRegistry,$fullnameRegistry,$emailRegistry,$addressRegistry,$phoneRegistry);
             $GLOBALS['db']->CloseConn();
