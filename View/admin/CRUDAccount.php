@@ -142,17 +142,19 @@
 						<div class="form-group">
 							<label>ID</label>
 							<span class="inline-validate" id="check4"></span>
-							<input type="text" id="idInsertAcc" class="form-control" name="id" required oninput="validateForm(idInsertAcc,check4,regexCheckout[6]);">
+							<input type="text" id="idInsertAcc" class="form-control" placeholder="Nhập ID" name="id" required oninput="validateForm(idInsertAcc,check4,regexCheckout[6]);">
 						</div>
 						<div class="form-group">
 							<label>Tên tài khoản</label>
 							<span class="inline-validate" id="check5"></span>
-							<input type="text" id="nameInsertAcc" class="form-control"  name="name" required oninput="validateForm(nameInsertAcc,check5,regexCheckout[5]);">
+							<input type="text" id="nameInsertAcc" class="form-control" placeholder="7 ký tự trở lên gồm chữ và số" name="name" required oninput="validateForm(nameInsertAcc,check5,regexCheckout[5]);">
 						</div>
 						<div class="form-group">
 							<label>Mật khẩu</label>
 							<span class="inline-validate" id="check6"></span>
 							<input type="password" id="password" class="form-control"  name="password" required oninput="validateForm(password,check6,regexCheckout[4]);">
+							<p style="color:red"><small>Gồm 8 ký tự trở lên gồm ký tự đặc biệt,chữ thường,chữ hoa,số </small></p>
+
 						</div>
 						<div class="form-group">
 							<label>Nhập lại mật khẩu</label>
@@ -162,22 +164,22 @@
 						<div class="form-group">
 							<label>Họ tên</label>
 							<span class="inline-validate" id="check8"></span>
-							<input type="text" id="fullnameInsertAcc" class="form-control"  name="fullname" required oninput="validateForm(fullnameInsertAcc,check8,regexCheckout[0]);">
+							<input type="text" id="fullnameInsertAcc" class="form-control" placeholder="Nhập Họ tên"  name="fullname" required oninput="validateForm(fullnameInsertAcc,check8,regexCheckout[0]);">
 						</div>
 						<div class="form-group">
 							<label>Địa chỉ</label>
 							<span class="inline-validate" id="check9"></span>
-							<input type="text" id="addressInsertAcc" class="form-control"  name="address" oninput="validateForm(addressInsertAcc,check9,regexCheckout[1]);">
+							<input type="text" id="addressInsertAcc" class="form-control" placeholder="Nhập địa chỉ" name="address" oninput="validateForm(addressInsertAcc,check9,regexCheckout[1]);">
 						</div>
 						<div class="form-group">
 							<label>Email</label>
 							<span class="inline-validate" id="check10"></span>
-							<input type="text" id="emailInsertAcc" class="form-control"  name="email" required oninput="validateForm(emailInsertAcc,check10,regexCheckout[2]);">
+							<input type="text" id="emailInsertAcc" class="form-control" placeholder="Nhập Email"  name="email" required oninput="validateForm(emailInsertAcc,check10,regexCheckout[2]);">
 						</div>	
                         <div class="form-group">
 							<label>Số điện thoại</label>
 							<span class="inline-validate" id="check11"></span>
-							<input type="text" class="form-control" id="phoneInsertAcc" name="phone" oninput="validateForm(phoneInsertAcc,check11,regexCheckout[3]);">
+							<input type="text" class="form-control" id="phoneInsertAcc" placeholder="Nhập số điện thoại" name="phone" oninput="validateForm(phoneInsertAcc,check11,regexCheckout[3]);">
 						</div>							
 					</div>
 					<div class="modal-footer">

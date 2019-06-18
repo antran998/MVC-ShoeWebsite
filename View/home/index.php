@@ -89,6 +89,7 @@
     
     <?php  
     if(isset($_SESSION['username'])){
+        // firstime spin
         $firstSpin=$GLOBALS['db']->LuckyCircleCondition($_SESSION['id']);
         if($firstSpin==0){
             echo '<div class="lucky-wheel stick-icon" id="blurBack">

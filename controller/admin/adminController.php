@@ -4,12 +4,12 @@ $GLOBALS['db'] = new Database();
 $GLOBALS['db']->connectDB();
 class adminController{
     public static function CreateView($viewName){
+
         if(isset($_POST['logout'])){
             adminController::LogOut();
         }
-        if($viewName=="mailcheck"){
-            adminController::CheckResetPassword();
-        }
+
+        // create random ID for account
         if($viewName=="addUser"){
             $ranID="";
             $compareID="CreateVar";
@@ -21,14 +21,17 @@ class adminController{
             $_SESSION['tempid']=$ranID;
         }
         
+        // Create view
         require_once('View/admin/'.$viewName.'.php');
         $GLOBALS['db']->CloseConn();
     }
 
+    // search bar for admin to CRUD account or item
     public static function GetSearchString($tmp){
         $_SESSION['searchString']=$tmp;
     }
     
+    // check if login are correct
     public static function CheckLogin(){
         if(isset($_POST['login'])){
             $usernameLogin = $_POST['usernameLogin'];
@@ -37,10 +40,10 @@ class adminController{
             if($usernameLogin==''||$passwordLogin==''){
                 echo 'Vui lòng nhập tên tài khoản hoặc mật khẩu';
             }else{
-                $usernameLogin = strip_tags($usernameLogin);
-                $usernameLogin = addslashes($usernameLogin);
-                $passwordLogin = strip_tags($passwordLogin);
-                $passwordLogin = addslashes($passwordLogin);
+                $usernameLogin = strip_tags($usernameLogin); // prevent sql injection
+                $usernameLogin = addslashes($usernameLogin); // prevent sql injection
+                $passwordLogin = strip_tags($passwordLogin); // prevent sql injection
+                $passwordLogin = addslashes($passwordLogin); // prevent sql injection
                 $check=$GLOBALS['db']->ReturnLoginAccount($usernameLogin,$passwordLogin);
                 if($check==true){
                     while($data = mysqli_fetch_assoc($GLOBALS['db']->GetResult())){
@@ -55,6 +58,7 @@ class adminController{
             }
         }
     }
+
     public static function LogOut(){
         if(isset($_POST['logout'])){
             session_destroy();
@@ -69,33 +73,10 @@ class adminController{
     public static function RemoveAccount($index){
         $GLOBALS['db']->deleteAccountById($index);
     }
-   
-    public static function CheckResetPassword(){
-        if(isset($_POST['recover-submit'])){
-            $email = $_POST['email'];
-            $check=$GLOBALS['db']->ReturnRegistryEmail($email);
-            if($check==true){
-                echo '<br/>';
-                while($data = mysqli_fetch_assoc($GLOBALS['db']->GetResult())){
-                    $id=$data['ID'];
-                    $currentPassword=$GLOBALS['db']->GetCurrentPassword($id);
-                    $message = "Bấm vào link sau để lấy lại mật khẩu".$currentPassword;
-                    mail("hienkwan@gmail.com","ResetPassord",$message,"From SneakerBoy");
-                    
-                }
-                echo '<script>alert(Mời bạn check mail để lấy lại mật khẩu!!!);</script>';
-                header('Location: home');
-                
-            }else{
-                echo '<script>alert("Email không đúng");</script>';
-            }
-        }
-    }
-
 
     public static function SendData($pattern){
         $pattern=json_decode($pattern);
-       
+       // Insert Item 
         if(isset($pattern->idInsert)){
             $idInsert= $pattern->idInsert;
             $nameInsert= $pattern->nameInsert;
@@ -103,10 +84,18 @@ class adminController{
             $dispriceInsert= $pattern->dispriceInsert;
             $imgUrl=$pattern->imgUrl;
             
+            // $GLOBALS['db']->InsertItem($idInsert,$nameInsert,$priceInsert,$dispriceInsert,$imgUrl);
+            // $GLOBALS['db']->CloseConn();
+            $checkID=adminController::CheckExistIDItem($idInsert);
+            if($check==true){
             $GLOBALS['db']->InsertItem($idInsert,$nameInsert,$priceInsert,$dispriceInsert,$imgUrl);
             $GLOBALS['db']->CloseConn();
+            echo 1;
+            }else{
+                echo 0;
+            }
         }else
-        if(isset($pattern->idEdit)){
+        if(isset($pattern->idEdit)){ // Edit Item
             $idEdit=$pattern->idEdit;
             $nameEdit=$pattern->nameEdit;
             $priceEdit=$pattern->priceEdit;
@@ -116,7 +105,7 @@ class adminController{
             $GLOBALS['db']->UpdateItem($idUpdate,$nameEdit,$priceEdit,$dispriceEdit,$imgUrlEdit);
             $GLOBALS['db']->CloseConn();
         }else
-        if(isset($pattern->idInsertAcc)){
+        if(isset($pattern->idInsertAcc)){ // Add account
             $idInsertAcc=$pattern->idInsertAcc;
             $username=$pattern->username;
             $fullname=$pattern->fullname;
@@ -124,10 +113,19 @@ class adminController{
             $email=$pattern->email;
             $phone=$pattern->phone;
             $password=$pattern->password;
+            // $GLOBALS['db']->insertAccount($idInsertAcc,$username,$password,$fullname,$email,$address,$phone);
+            // $GLOBALS['db']->CloseConn();
+            $check=adminController::CheckExistUsername($usernameRegistry);
+            $IDcheck=$GLOBALS['db']->GetSpecificRow("'".$idInsertAcc."'",'ID','account_info','ID');
+            if($check==true&&$IDcheck!=''){
             $GLOBALS['db']->insertAccount($idInsertAcc,$username,$password,$fullname,$email,$address,$phone);
             $GLOBALS['db']->CloseConn();
+            echo 1;
+            }else{
+                echo 0;
+            }
         }else
-        if(isset($pattern->usernameRegistry)){
+        if(isset($pattern->usernameRegistry)){ // sign up an account
             $usernameRegistry=$pattern->usernameRegistry;
             $passwordRegistry=$pattern->passwordRegistry;
             $fullnameRegistry=$pattern->fullnameRegistry;
@@ -135,10 +133,18 @@ class adminController{
             $addressRegistry=$pattern->addressRegistry;
             $phoneRegistry=$pattern->phoneRegistry;
 
+            // $GLOBALS['db']->insertAccount($_SESSION['tempid'],$usernameRegistry,$passwordRegistry,$fullnameRegistry,$emailRegistry,$addressRegistry,$phoneRegistry);
+            // $GLOBALS['db']->CloseConn();
+            $check=adminController::CheckExistUsername($usernameRegistry);
+            if($check==true){
             $GLOBALS['db']->insertAccount($_SESSION['tempid'],$usernameRegistry,$passwordRegistry,$fullnameRegistry,$emailRegistry,$addressRegistry,$phoneRegistry);
             $GLOBALS['db']->CloseConn();
+            echo 1;
+            }else{
+                echo 0;
+            }
         }else
-        if(isset($pattern->idEditAcc)){
+        if(isset($pattern->idEditAcc)){ // Edit Account (admin)
             $idEditAcc=$pattern->idEditAcc;
             $fullnameEditAcc=$pattern->fullnameEditAcc;
             $emailEditAcc=$pattern->emailEditAcc;
@@ -147,7 +153,7 @@ class adminController{
             $GLOBALS['db']->updateAccountInfo($idEditAcc,$fullnameEditAcc,$emailEditAcc,$addressEditAcc,$phoneEditAcc);
             $GLOBALS['db']->CloseConn();
         }else
-        if(isset($pattern->idUpdateAcc)){
+        if(isset($pattern->idUpdateAcc)){ // Edit Account (customer)
             $idUpdateAcc=$pattern->idUpdateAcc;
             $nameUpdateAcc=$pattern->nameUpdateAcc;
             $emailUpdateAcc=$pattern->emailUpdateAcc;
@@ -161,7 +167,7 @@ class adminController{
             $GLOBALS['db']->CloseConn();
             header('Location: shop');
         }
-        if(isset($pattern->phoneExist)){
+        if(isset($pattern->phoneExist)){ // Remeber guest by phone
             $idExist = $GLOBALS['db']->GetSpecificRow($pattern->phoneExist,'ID','account_info','PHONE');
             if(strpos($idExist, 'A') !== false){
                 $usernameExist = $GLOBALS['db']->GetSpecificRow("'".$idExist."'",'USERNAME','account','ID');
@@ -176,12 +182,12 @@ class adminController{
             }
             $GLOBALS['db']->CloseConn();
         }
-        if(isset($pattern->resetEmail)){
+        if(isset($pattern->resetEmail)){ // Send email and receive password
             $returnIDCheckByMail=$GLOBALS['db']->ReturnRegistryEmail($pattern->resetEmail);
             $currentPassword=$GLOBALS['db']->ReturnRegistryPassworByUsername($pattern->usernameReset,$returnIDCheckByMail);
             if($currentPassword!=NULL){
                     $message = "Mật khẩu của bạn là :".$currentPassword;
-                    mail($pattern->resetEmail,"ResetPassord",$message,"From SneakerBoy");
+                    mail($pattern->resetEmail,"ResetPassword",$message,"From SneakerBoy");
                     echo 1;
             }else{
                 echo 0;

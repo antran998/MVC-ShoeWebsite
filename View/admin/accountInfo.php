@@ -73,7 +73,7 @@
                         <label for="publicinfo" class="col-4 col-form-label">Mật khẩu mới</label> 
                         <div class="col-8 float-container">
                         <label id="check4"></label>
-                          <input type="password" id="passUpdateAcc" name="publicinfo" placeholder="Mật khẩu mới" cols="40" rows="4" class="form-control" oninput="validateForm(passUpdateAcc,check4,regexCheckout[4])">
+                          <input type="password" id="passUpdateAcc" name="publicinfo" placeholder="Mật khẩu mới (gồm ký tự hoa, thường, đặc biệt, số)" cols="40" rows="4" class="form-control" oninput="validateForm(passUpdateAcc,check4,regexCheckout[4])">
                         </div>
                       </div>
                       <div class="form-group row">

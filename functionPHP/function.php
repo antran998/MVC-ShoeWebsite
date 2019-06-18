@@ -1,6 +1,6 @@
 <?php  
 
-// Xử lý số tiền đúng định dạng
+// format money type
 function numberWithDots($x) {
 	$x=(string) $x;
 	$pattern = '/\B(?=(\d{3})+(?!\d))/';

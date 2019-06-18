@@ -78,13 +78,8 @@ class Database {
         }        
     }
 
-    // public function BestSeller(){
-    //     $sql="SELECT SUM(QUANTITY),bh.ID_ITEM FROM buying_history bh,items it WHERE bh.ID_ITEM=it.ID_ITEM GROUP BY ID_ITEM LIMIT 3";
-    // }
-
-    //Đếm số lượng
+    //Sum quantity of item
     public function SumQuantity($columnName1,$columnName2,$tableName,$groupColumn,$amount,array &$valueContainer){
-        // $sql = "SELECT SUM(".$columnName1."),".$columnName2." FROM ".$tableName." GROUP BY ".$groupColumn." LIMIT ".$amount;
         $sql = "SELECT SUM(".$columnName1."),bh.".$columnName2." FROM ".$tableName." bh,items it WHERE bh.ID_ITEM = it.ID_ITEM GROUP BY ".$groupColumn." LIMIT ".$amount;
 
         $this->result=$this->conn->query($sql);
@@ -180,6 +175,28 @@ class Database {
         $this->result=$this->conn->query($sql);
         while($row=mysqli_fetch_assoc($this->result)){
             return $row['PASSWORD'];
+        }
+    }
+
+    public function CheckExistUsername($username){
+        $sql="SELECT * FROM account WHERE USERNAME='$username'";
+        $this->result=$this->conn->query($sql);
+        $num_rows=mysqli_num_rows($this->result);
+        if($num_rows==0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function CheckExistIDItem($id){
+        $sql="SELECT * FROM items WHERE ID='$id'";
+        $this->result=$this->conn->query($sql);
+        $num_rows=mysqli_num_rows($this->result);
+        if($num_rows==0){
+            return true;
+        }else{
+            return false;
         }
     }
 

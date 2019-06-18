@@ -71,7 +71,7 @@
                 
                 <div class="float-container">
                     <label id="check4"></label>
-                    <input type="password" id="user_pass" class="form-control" placeholder="Mật khẩu" required autofocus="" name="pass" oninput="validateForm(user_pass,check4,regexCheckout[4])">
+                    <input type="password" id="user_pass" class="form-control" placeholder="Mật khẩu (gồm ký tự in hoa, đặc biệt, số, thường)" required autofocus="" name="pass" oninput="validateForm(user_pass,check4,regexCheckout[4])">
                 </div>            
 
                 <div class="float-container">
