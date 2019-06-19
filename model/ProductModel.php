@@ -190,7 +190,7 @@ class Database {
     }
 
     public function CheckExistIDItem($id){
-        $sql="SELECT * FROM items WHERE ID='$id'";
+        $sql="SELECT ID_ITEM FROM items WHERE ID_ITEM='$id'";
         $this->result=$this->conn->query($sql);
         $num_rows=mysqli_num_rows($this->result);
         if($num_rows==0){

@@ -88,9 +88,9 @@ class adminController{
             // $GLOBALS['db']->CloseConn();
             $checkID=$GLOBALS['db']->CheckExistIDItem($idInsert);
             if($checkID==true){
-            $GLOBALS['db']->InsertItem($idInsert,$nameInsert,$priceInsert,$dispriceInsert,$imgUrl);
-            $GLOBALS['db']->CloseConn();
-            echo 1;
+                $GLOBALS['db']->InsertItem($idInsert,$nameInsert,$priceInsert,$dispriceInsert,$imgUrl);
+                $GLOBALS['db']->CloseConn();
+                echo 1;
             }else{
                 echo 0;
             }
@@ -116,14 +116,19 @@ class adminController{
             // $GLOBALS['db']->insertAccount($idInsertAcc,$username,$password,$fullname,$email,$address,$phone);
             // $GLOBALS['db']->CloseConn();
             $check=$GLOBALS['db']->CheckExistUsername($username);
-            // $IDcheck=$GLOBALS['db']->GetSpecificRow("'".$idInsertAcc."'",'ID','account_info','ID');
-            // echo $IDcheck;
-            if($check==true){
-            $GLOBALS['db']->insertAccount($idInsertAcc,$username,$password,$fullname,$email,$address,$phone);
-            $GLOBALS['db']->CloseConn();
-            echo 1;
+            $IDcheck=$GLOBALS['db']->GetSpecificRow("'".$idInsertAcc."'",'ID','account','ID');
+            
+            if($check==true && $IDcheck==NULL){
+                $GLOBALS['db']->insertAccount($idInsertAcc,$username,$password,$fullname,$email,$address,$phone);
+                $GLOBALS['db']->CloseConn();
+                echo 1;
             }else{
-                echo 0;
+                if($check!=true){
+                    echo 0;
+                }
+                if($IDcheck!=NULL){
+                    echo 2;
+                }                
             }
         }else
         if(isset($pattern->usernameRegistry)){ // sign up an account
